@@ -16,7 +16,7 @@
   "main": "app.js",
   "scripts": {
     "lint": "npx eslint .",
-    "start": "nodemon app.js"
+    "dev": "nodemon app.js"
   },
   "devDependencies": {
     "eslint": "^8.56.0",
