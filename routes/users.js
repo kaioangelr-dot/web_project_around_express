@@ -8,7 +8,7 @@ router.get("/users", (req, res) => {
   fs.readFile(usersPath, { encoding: "utf8" }, (err, data) => {
     if (err) {
       console.log(err);
-      return res.status(500).send("Error reading the users's file");
+      return res.status(500).send("Error reading the users");
     }
     res.send(data);
   });
