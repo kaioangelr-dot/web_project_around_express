@@ -9,4 +9,8 @@ const cardsRouter = require("./routes/cards");
 app.use("/", usersRouter);
 app.use("/", cardsRouter);
 
+app.get("/", (req, res) => {
+  res.send({ message: "The solicitation was not found" });
+});
+
 app.listen(PORT);
