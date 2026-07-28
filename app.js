@@ -8,9 +8,8 @@ const app = express();
 
 app.use('/', usersRouter);
 app.use('/', cardsRouter);
-
-app.get('/', (req, res) => {
-  res.send({ message: 'The solicitation was not found' });
+app.use((req, res) => {
+  res.status(404).send({ message: 'The solicitation was not found' });
 });
 
 app.listen(PORT);

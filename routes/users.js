@@ -23,11 +23,13 @@ router.get('/users/:id', (req, res) => {
 
 router.get('/users', (req, res) => {
   fs.readFile(usersPath, { encoding: 'utf8' }, (err, data) => {
+    const users = JSON.parse(data);
+
     if (err) {
       console.log(err);
       return res.status(500).send('Error reading the users');
     }
-    return res.send(data);
+    return res.send(users);
   });
 });
 
