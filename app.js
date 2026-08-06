@@ -6,6 +6,8 @@ const cardsRouter = require('./routes/cards');
 
 const app = express();
 
+mongoose.connect('mongodb://localhost:27017/aroundb');
+
 app.use('/', usersRouter);
 app.use('/', cardsRouter);
 app.use((req, res) => {
