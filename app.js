@@ -9,10 +9,10 @@ const app = express();
 
 mongoose.connect('mongodb://localhost:27017/aroundb');
 
+app.use(express.json());
 app.use('/', usersRouter);
 app.use('/', cardsRouter);
-app.use((req, res) => {
-  res.status(404).send({ message: 'The solicitation was not found' });
-});
+/* prettier-ignore */
+app.use((req, res) => res.status(404).send({ message: 'The solicitation was not found' }));
 
 app.listen(PORT);
