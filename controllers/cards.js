@@ -12,12 +12,26 @@ module.exports.createCard = (req, res) => {
   /* prettier-ignore */
   card.create({ name, link, ownerId: owner })
     .then((card) => res.send({ data: card }))
-    .catch((err) => res.status(500).send({ message: 'Card was not created' }));
+    .catch((err) =>{
+      //checks if there's an invalid format, it's checked in the /models/card.js
+      if (err.name === 'CastError') {
+      return res.status(400).send({ message: 'Invalid data' });
+      }
+      return res.status(500).send({ message: 'Card was not created' })
+  });
 };
 
 module.exports.deleteCard = (req, res) => {
   /* prettier-ignore */
   card.findById(req.params.id)
     .then((card) => res.send({ data: card }))
-    .catch((err) => res.status(500).send({ message: 'Card does not exist' }));
+    .catch((err) =>{
+      if (err.name === 'DocumentNotFoundError') {
+        return res.status(404).send({ message: 'Card not found' });
+      }
+      if (err.name === 'CastError') {
+        return res.status(400).send({ message: 'Owner ID invalid format' });
+      }
+      return res.status(500).send({ message: 'Card does not exist' })
+  });
 };
