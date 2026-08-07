@@ -9,7 +9,7 @@ const app = express();
 
 mongoose.connect('mongodb://localhost:27017/aroundb');
 
-//user Id to get acess to the cards
+// user Id to get acess to the cards
 app.use((req, res, next) => {
   req.user = {
     _id: '6a74cf835fca0893afab787f',

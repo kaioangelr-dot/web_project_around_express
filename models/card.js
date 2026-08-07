@@ -1,5 +1,4 @@
 const mongoose = require('mongoose');
-const { link } = require('../routes/users');
 
 const cardSchema = mongoose.Schema({
   name: {
@@ -12,10 +11,11 @@ const cardSchema = mongoose.Schema({
     type: String,
     required: true,
     validate: {
-      validator: (v) => /^https?:\/\/(www\.)?[\w-]+(\.[\w-]+)*\.com(\/\S*)?$/.test(v), //prettier-ignore
+      /* prettier-ignore */
+      validator: (v) => /^https?:\/\/(www\.)?[\w-]+(\.[\w-]+)*\.com(\/\S*)?$/.test(v),
       /* It starts with hhtp//: or https//:, does not allow consecutive dots, any space, or
       any other caracter than dots, digits, hifens and letters. It ends with either
-      .com, .com/ or .com/'infinite caracters'*/
+      .com, .com/ or .com/'infinite caracters' */
     },
   },
   owner: {

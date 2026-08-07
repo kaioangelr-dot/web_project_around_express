@@ -3,7 +3,7 @@ const card = require('../models/card');
 module.exports.getCards = (req, res) => {
   /* prettier-ignore */
   card.find({}).then((cards) => res.send({ data: cards }))
-    .catch((err) => res.status(500).send({ message: 'Server error' }));
+    .catch(() => res.status(500).send({ message: 'Server error' }));
 };
 
 module.exports.createCard = (req, res) => {
@@ -11,29 +11,29 @@ module.exports.createCard = (req, res) => {
 
   /* prettier-ignore */
   card.create({ name, link, ownerId: owner })
-    .then((card) => res.send({ data: card }))
-    .catch((err) =>{
-      //checks if there's an invalid format, it's checked in the /models/card.js
+    .then((cardData) => res.send({ data: cardData }))
+    .catch((err) => {
+      // checks if there's an invalid format, it's checked in the /models/card.js
       if (err.name === 'CastError') {
-      return res.status(400).send({ message: 'Invalid data' });
+        return res.status(400).send({ message: 'Invalid data' });
       }
-      return res.status(500).send({ message: 'Card not created' })
-  });
+      return res.status(500).send({ message: 'Card not created' });
+    });
 };
 
 module.exports.deleteCard = (req, res) => {
   /* prettier-ignore */
   card.findByIdAndDelete(req.params.id).orFail()
-    .then((card) => res.send({ data: card }))
-    .catch((err) =>{
+    .then((cardData) => res.send({ data: cardData }))
+    .catch((err) => {
       if (err.name === 'DocumentNotFoundError') {
         return res.status(404).send({ message: 'Card not found' });
       }
       if (err.name === 'CastError') {
         return res.status(400).send({ message: 'Owner ID invalid format' });
       }
-      return res.status(500).send({ message: 'server error' })
-  });
+      return res.status(500).send({ message: 'server error' });
+    });
 };
 
 module.exports.likeCard = (req, res) => {
@@ -44,7 +44,7 @@ module.exports.likeCard = (req, res) => {
       { new: true },
     )
     .orFail()
-    .then((card) => res.send({ data: card }))
+    .then((cardData) => res.send({ data: cardData }))
     .catch((err) => {
       if (err.name === 'DocumentNotFoundError') {
         return res.status(404).send({ message: 'Card not found' });
@@ -64,7 +64,7 @@ module.exports.dislikeCard = (req, res) => {
       { new: true },
     )
     .orFail()
-    .then((card) => res.send({ data: card }))
+    .then((cardData) => res.send({ data: cardData }))
     .catch((err) => {
       if (err.name === 'DocumentNotFoundError') {
         return res.status(404).send({ message: 'Card not found' });
