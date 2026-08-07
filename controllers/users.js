@@ -4,7 +4,7 @@ module.exports.getAllUsers = (req, res) => {
   /* prettier-ignore */
   user.find({})
     .then((users) => res.send({ data: users }))
-    .catch((err) => res.status(500).send({ message: 'Error reading the users' }));
+    .catch((err) => res.status(500).send({ message: 'Server error' }));
 };
 
 module.exports.getUser = (req, res) => {
@@ -18,7 +18,7 @@ module.exports.getUser = (req, res) => {
       if (err.name === 'CastError') {
         return res.status(400).send({ message: 'User ID invalid format' });
       }
-      return res.status(500).send({ message: 'User ID not found' })
+      return res.status(500).send({ message: 'Server error' })
     });
 };
 
@@ -32,7 +32,7 @@ module.exports.createUser = (req, res) => {
       if (err.name === 'CastError') {
       return res.status(400).send({ message: 'Invalid data' });
       }
-      return res.status(500).send({ message: 'User was not created' })
+      return res.status(500).send({ message: 'Server error' })
     });
 };
 
@@ -46,7 +46,7 @@ module.exports.updateUser = (req, res) => {
       if (err.name === 'CastError') {
         return res.status(400).send({ message: 'Invalid data' });
       }
-      return res.status(500).send({ message: 'User was not updated' })
+      return res.status(500).send({ message: 'Server error' })
     });
 };
 
@@ -60,6 +60,6 @@ module.exports.updateAvatar = (req, res) => {
       if (err.name === 'CastError') {
         return res.status(400).send({ message: 'Invalid data' });
       }
-      return res.status(500).send({ message: 'User avatar was not updated' })
+      return res.status(500).send({ message: 'Server error' })
     });
 };

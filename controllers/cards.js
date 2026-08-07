@@ -3,7 +3,7 @@ const card = require('../models/card');
 module.exports.getCards = (req, res) => {
   /* prettier-ignore */
   card.find({}).then((cards) => res.send({ data: cards }))
-    .catch((err) => res.status(500).send({ message: 'Error reading the cards' }));
+    .catch((err) => res.status(500).send({ message: 'Server error' }));
 };
 
 module.exports.createCard = (req, res) => {
@@ -17,13 +17,13 @@ module.exports.createCard = (req, res) => {
       if (err.name === 'CastError') {
       return res.status(400).send({ message: 'Invalid data' });
       }
-      return res.status(500).send({ message: 'Card was not created' })
+      return res.status(500).send({ message: 'Card not created' })
   });
 };
 
 module.exports.deleteCard = (req, res) => {
   /* prettier-ignore */
-  card.findByIdAndDelete(req.params.id)
+  card.findByIdAndDelete(req.params.id).orFail()
     .then((card) => res.send({ data: card }))
     .catch((err) =>{
       if (err.name === 'DocumentNotFoundError') {
@@ -32,6 +32,46 @@ module.exports.deleteCard = (req, res) => {
       if (err.name === 'CastError') {
         return res.status(400).send({ message: 'Owner ID invalid format' });
       }
-      return res.status(500).send({ message: 'Card does not exist' })
+      return res.status(500).send({ message: 'server error' })
   });
+};
+
+module.exports.likeCard = (req, res) => {
+  card
+    .findByIdAndUpdate(
+      req.params.cardId,
+      { $addToSet: { likes: req.user._id } },
+      { new: true },
+    )
+    .orFail()
+    .then((card) => res.send({ data: card }))
+    .catch((err) => {
+      if (err.name === 'DocumentNotFoundError') {
+        return res.status(404).send({ message: 'Card not found' });
+      }
+      if (err.name === 'CastError') {
+        return res.status(400).send({ message: 'ID invalid format' });
+      }
+      return res.status(500).send({ message: 'server error' });
+    });
+};
+
+module.exports.dislikeCard = (req, res) => {
+  card
+    .findByIdAndUpdate(
+      req.params.cardId,
+      { $pull: { likes: req.user._id } },
+      { new: true },
+    )
+    .orFail()
+    .then((card) => res.send({ data: card }))
+    .catch((err) => {
+      if (err.name === 'DocumentNotFoundError') {
+        return res.status(404).send({ message: 'Card not found' });
+      }
+      if (err.name === 'CastError') {
+        return res.status(400).send({ message: 'ID invalid format' });
+      }
+      return res.status(500).send({ message: 'server error' });
+    });
 };
