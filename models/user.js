@@ -18,9 +18,9 @@ const userSchema = mongoose.Schema({
     required: true,
     validate: {
       validator: (v) => /^https?:\/\/(www\.)?[\w-]+(\.[\w-]+)*\.com(\/\S*)?$/.test(v), //prettier-ignore
-      /* It starts with hhtp//: or https//:, does not allow consecutive dots, any space, or
-      any other caracter than dots, digits, hifens and letters. It ends with either
-      .com, .com/ or .com/'infinite caracters'*/
+      /* It starts with hhtp//: or https//:, does not allow consecutive dots, any space, and
+      before the first .com it does not allow any other caracters than dots, digits, 
+      hifens and letters. It ends with either .com, .com/ or .com/'infinite caracters'*/
     },
   },
 });

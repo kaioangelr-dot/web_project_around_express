@@ -23,7 +23,7 @@ module.exports.createCard = (req, res) => {
 
 module.exports.deleteCard = (req, res) => {
   /* prettier-ignore */
-  card.findById(req.params.id)
+  card.findByIdAndDelete(req.params.id)
     .then((card) => res.send({ data: card }))
     .catch((err) =>{
       if (err.name === 'DocumentNotFoundError') {

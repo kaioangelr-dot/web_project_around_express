@@ -5,8 +5,8 @@ const { getCards, createCard, deleteCard } = require('../controllers/cards');
 
 const cardsPath = path.join(__dirname, '..', 'data', 'cards.json');
 
-router.get('/cards', getCards);
-router.post('/cards', createCard);
-router.delete('/cards', deleteCard);
+router.get('/', getCards);
+router.post('/', createCard);
+router.delete('/', deleteCard);
 
 module.exports = router;

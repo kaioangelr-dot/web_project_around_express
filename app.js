@@ -19,8 +19,8 @@ app.use((req, res, next) => {
 });
 
 app.use(express.json());
-app.use('/', usersRouter);
-app.use('/', cardsRouter);
+app.use('/users', usersRouter);
+app.use('/cards', cardsRouter);
 /* prettier-ignore */
 app.use((req, res) => res.status(404).send({ message: 'The solicitation was not found' }));
 
